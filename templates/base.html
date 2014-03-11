@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html xml:lang="en" lang="en"> 
+<head>
+    <title>Network Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/docs/assets/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="/static/calendar/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+    <script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
+	<script type="text/javascript">
+		var script = '<script type="text/javascript" src="http://google-maps-' + 'utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble';
+		if (document.location.search.indexOf('compiled') !== -1) {
+			script += '-compiled';
+		}
+		script += '.js"><' + '/script>';
+		document.write(script);
+	</script>
+    <script src="/static/js/bootstrap-tab.js"></script>
+    <script src="/static/js/bootstrap-button.js"></script>
+    <script src="/static/js/highstock/js/highstock.js"></script>
+    <script src="/static/js/highstock/js/highcharts-more.js"></script>
+    <script src="/static/device.js"></script>
+	<script src="/static/index.js"></script>
+    <script src="/static/rendergraphs.js"></script>
+	<script src="/static/calendar/moment.js"></script>
+	<script src="/static/calendar/daterangepicker.js"></script>
+    <!--<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
+    <meta name="Author" content="Nick Feamster" /> 
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-7029796-5']);
+        _gaq.push(['_setDomainName', 'networkdashboard.org']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+         var ga = document.createElement('script'); ga.type =
+         'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ?
+             'https://ssl' :
+             'http://www') + '.google-analytics.com/ga.js';
+         var s =
+         document.getElementsByTagName('script')[0];
+         s.parentNode.insertBefore(ga, s);
+         })();
+    </script>
+</head>
+<body>
+{% block content %} {% endblock %}
+{% block footer %} 
+<!--
+<p class="footnote"> 
+  <a href="/">Home</a> | 
+  <a href="http://projectbismark.net/">BISMark</a> |
+  <a href="http://gtnoise.net/">GTNoise</a> |
+</p>
+-->
+{% endblock %}
+
+</body>
+</html>

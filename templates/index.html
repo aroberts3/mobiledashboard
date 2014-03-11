@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body onload="load()" onunload="GUnload()">
+<div class="content">
+    <div id="header">
+        <img id="logo" src="/static/images/bismark.gif" alt="BISmark logo"/>
+        <div>
+            <h1>Network Dashboard</h1>
+        </div>
+    </div>
+
+    <p>The <em>network dashboard</em> is a portal designed to help home users
+    visualize properties of their home Internet connections. To use the network
+    dashboard, users install a BISMark-enabled gateway device in their home
+    network. The gateway device periodically uploads measurements of the user's
+    Internet Service Provider to a centralized database, which the user can
+    access via this portal.</p>
+
+    <div class="view_form">
+        <form method="post" action="/device/">
+            <input id="node_id" type="hidden" name="device" value=""/>
+            <input id="view_button" class="btn btn-primary" type="submit"
+            value="Show me data from my router" onclick="return expandEntry()"/>
+        </form>
+    </div>
+    <div class="view_form">
+        <form method="post" action="/display_device/e3519080ec4da846e62209b3dd070211/1/0/0">
+            <input class="btn" type="submit" value="Show me an example router"/>
+        </form>
+    </div>
+    <div style="clear: both">
+        <p id="advanced"><a href="#" onclick="return expandAdvanced()">Provide a BISmark router MAC address (advanced)</a></p>
+    </div>
+    <div id="detection_error" class="alert">
+        <p>Please provide the MAC address of your BISmark router.</p>
+        <form method="post" action="/device/">
+            <input id="error_mac" type="text" name="device" placeholder="MAC address..."/>
+            <input class="btn btn-primary" type="submit" value="Search"/>
+        </form>
+    </div>
+
+    <h2>Map of Active BISmark Routers - <a href="/countries_vis/"> View World Latency Map </a></h2>
+    <div class ="outerContainer" id="outer_container_5">
+        <div class ="graphdiv" id="map"></div>
+		<ul id="tab_2" class="nav nav-tabs" style="clear: both">
+			<li class="active"><a href="#city_list" data-toggle="tab">City</a></li>
+			<li><a href="#country_list" data-toggle="tab">Country</a></li>
+			<li><a href="#isp_list" data-toggle="tab">ISP</a></li>
+			<li><a href="#filter_markers" data-toggle="tab">Filter</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active in" id="city_list">
+				<div class ="statsdiv" id="stats2">
+					<table class="table table-striped table-condensed">
+						<tr>
+							<td></td>
+							<td class = "tdright"><h3>Device Count ({{device_count}})</h3></td>
+							<td class = "tdright"><h3>Active ({{active_count}})</h3></td>
+						</tr>
+						{% for city in city_data %}
+							<tr>
+								<td><a href="/compare_by_city/{{city.city}}/{{city.country}}">{{city.city}}, {{city.country}}</a></td>
+								<td class = "tdright">{{city.count}}</td>
+								<td class = "tdright">{{city.count_active}}</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			<div class="tab-pane" id="country_list">
+				<div class ="statsdiv" id="stats1">
+					<table class="table table-striped table-condensed">
+						<tr>
+							<td></td>
+							<td class = "tdright"><h3>Device Count ({{device_count}})</h3></td>
+							<td class = "tdright"><h3>Active ({{active_count}})</h3></td>
+						</tr>
+						{% for country in country_data %}
+							<tr>
+								<td><a href="/compare_by_country/{{country.country}}">{{country.country}}</a></td>
+								<td class = "tdright" id="countryCountStat">{{country.count}}</td>
+								<td class = "tdright">{{country.count_active}}</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			<div class="tab-pane" id="isp_list">
+				<div class ="statsdiv" id="stats3">
+					<table class="table table-striped table-condensed">
+						<tr>
+							<td></td>
+							<td class = "tdright"><h3>Device Count ({{device_count}})</h3></td>
+							<td class = "tdright"><h3>Active ({{active_count}})</h3></td>
+						</tr>
+						{% for isp in isp_data %}
+							<tr>
+								<td><a href="/compare_by_isp/{{isp.isp}}/none">{{isp.isp}}</a></td>
+								<td class = "tdright">{{isp.count}}</td>
+								<td class = "tdright">{{isp.count_active}}</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			<div class="tab-pane" id="filter_markers">
+				<div class ="statsdiv" id="stats5">
+					<table class="table table-striped table-condensed">
+							<tr>
+								<td>Hide Unregistered Devices</td>
+								<td> <input type="checkbox" id="filter_unregistered" onclick ="hideUnregistered(this.checked)"> </td>
+							</tr>
+							<tr>
+								<td>Filter by Provider</td>
+								<td>
+									<select id="filter_isp" onChange = "filterProviders(this)">
+										<option value="none" selected = "selected">None</option>
+										{% for isp in isp_data %}
+											<option value="{{isp.isp}}">{{isp.isp}}</option>
+										{% endfor %}
+									</select> 
+								</td>
+							</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+{% endblock %}
